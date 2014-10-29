@@ -5,13 +5,14 @@ Scrappers that grab declarations and biographies of the MPs candidates in Ukrain
 
 ## add_ids_to_filenames.py
 Script that finds MP's chesno ID for all files in a working directory.
+Uses [transliterate](https://pypi.python.org/pypi/) to convert names with latin characters and [python-Levenshtein](https://pypi.python.org/pypi/python-Levenshtein/).
 Assumes that MPs database is in `../../base.csv`
 
 Usage:
 ```
-python3 ../../candidates2014/add_ids_to_filenames.py
-python3 ../../candidates2014/add_ids_to_filenames.py --party="`cat ../party_name.txt`" --extension=".html"
+python3 ../../candidates2014/add_ids_to_filenames.py # verify changes
 python3 ../../candidates2014/add_ids_to_filenames.py --rename
+python3 ../../candidates2014/add_ids_to_filenames.py --party="`cat ../party_name.txt`" --extension=".html"
 ```
 Input filenames examples:
 ```
@@ -22,7 +23,4 @@ bio_прізвище.pdf
 прізвище_і_б.pdf
 ім’я_прізвище.pdf (with --name-reversed)
 ```
-
 All files starting with an integer and underscore will be ignored.
-
-Uses [transliterate](https://pypi.python.org/pypi/) to convert names with latin characters and [python-Levenshtein](https://pypi.python.org/pypi/python-Levenshtein/).
