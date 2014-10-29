@@ -4,7 +4,7 @@ candidates2014
 Scrappers that grab declarations and biographies of the MPs candidates in Ukrainian parliament - Elections 2014
 
 ## add_ids_to_filenames.py
-Script that finds MP's chesno ID for all files in a working directory.
+Script that finds MP's chesno ID for all [.pdf] files in a working directory.
 Uses [transliterate](https://pypi.python.org/pypi/) to convert names with latin characters and [python-Levenshtein](https://pypi.python.org/pypi/python-Levenshtein/).
 Assumes that MPs database is in `../../base.csv`
 
