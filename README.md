@@ -15,11 +15,11 @@ python3 ../../candidates2014/add_ids_to_filenames.py --rename
 ```
 Input filenames examples:
 ```
+прізвище.pdf
+decl_прізвище.pdf
+bio_прізвище.pdf
 прізвище_ім’я_по-батькові.pdf
 прізвище_і_б.pdf
-прізвище.pdf
-decl_прізвище[_ім’я_по-батькові].pdf
-bio_прізвище[_ім’я_по-батькові].pdf
 ім’я_прізвище.pdf (with --name-reversed)
 ```
 
