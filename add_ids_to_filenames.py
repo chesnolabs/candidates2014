@@ -20,7 +20,8 @@ parser.set_defaults(
 	party=None,
 	simulate=True,
 	name_reversed=False,
-	extension=".pdf")
+	extension=".pdf",
+	full_rename=False)
 
 parser.add_argument(
 	"--party",
@@ -42,20 +43,26 @@ parser.add_argument(
 	"--extension",
 	help="only affect these files, defaults to .pdf")
 
+parser.add_argument(
+	"--full-rename",
+	help="use name from database",
+	dest="full_rename",
+	action="store_true")
+
 args = parser.parse_args()
 
 
 def find_similar_names(search_name, base, default_distance):
 	similar_names = list()
-	for row in base:
-		# nid, name, link, party, ticket, district, rid, rdate, urid, urdate, \
-		# urreason, bio, profile, party12, ticket12, link12, district12, did12, \
-		# dlink12, loh, lohcom, corrupt, autobio, biolink, decl, decllink = row
-		nid = row[0]
-		name = row[1]
-		district = row[5]
+	for mpid in base.keys():
+		# mpid, name, link, party, ticket, district,\
+		# rid, rdate, urid, urdate, urreason,\
+		# bio, profile, party12, ticket12, link12,\
+		# district12, did12, dlink12, loh, lohcom,\
+		# corrupt, autobio, biolink, decl, decllink
 
-		name = name.lower().replace(" ", "_").split("_")
+		name = base[mpid][1]
+		district = base[mpid][5]
 
 		dist = list()
 		for pair in zip(search_name, name):
@@ -66,42 +73,71 @@ def find_similar_names(search_name, base, default_distance):
 			dist.append(current_dist)
 
 		if len(search_name) == len(name) and sum(dist) == 0:
-			return [[nid, name, district]]
+			return [[mpid, name, district]]
 
 		if all(d < default_distance for d in dist):
-			similar_names.append([nid, name, district])
+			similar_names.append([mpid, name, district])
 	return similar_names
+
+
+def _rename(old_filename, new_filename):
+	print("	", file, "	>	", new_filename, '\n')
+	if not args.simulate:
+		rename(old_filename, new_filename)
 
 
 # Reading CSV
 with open(BASE_LOCATION) as basefile:
-	base_all = list(reader(basefile))
+	csv_reader = reader(basefile)
+	next(csv_reader)
+	csv_list = list(csv_reader)
 
-base = list()
-for row in base_all:
+base = dict()
+for row in csv_list:
 	if args.party and row[3] != args.party:
 		continue
-	base.append(row)
+	mpid = int(row[0])
+	if mpid in base.keys():
+		print("Duplicate MP ID in database: " + str(mpid), file=stderr)
+		# exit(1)
+	base[mpid] = row
+	base[mpid][1] = base[mpid][1].lower().replace(" ", "_").split("_")
 
 # Work with files
 for file in listdir('.'):
-	# Skip file that don't have needed extension
+	# Skip files that don't have needed extension
 	if not file.lower().endswith(args.extension):
 		continue
 
-	print(file)
 	search_name = path.splitext(file)[0].split("_")
 
 	# Skip files that have ids
+	got_id = None
 	try:
-		int(search_name[0])
-		continue
+		got_id = int(search_name[0])
+		search_name.pop(0)
 	except:
 		pass
 
 	# Skip type prefixes
+	prefix = ""
 	if search_name[0] in NONAME_PREFIXES:
-		search_name.pop(0)
+		prefix = search_name.pop(0) + "_"
+
+	if got_id:
+		if not args.full_rename:
+			continue
+		new_filename = \
+			str(got_id) + '_'\
+			+ prefix\
+			+ '_'.join([
+					translit(el, 'uk', reversed=True)
+					for el in base[got_id][1]])\
+			+ args.extension
+		_rename(file, new_filename)
+		continue
+
+	print(file)
 
 	search_name = [translit(el, 'uk') for el in search_name]
 	if args.name_reversed:
@@ -128,10 +164,10 @@ for file in listdir('.'):
 
 		else:
 			for i in range(len(similar_names)):
-				nid, name, district = similar_names[i]
+				mpid, name, district = similar_names[i]
 				print(
 					str(i + 1) + ")	",
-					nid,
+					mpid,
 					' ',
 					' '.join([el.title() for el in name]),
 					'	',
@@ -143,10 +179,7 @@ for file in listdir('.'):
 				continue
 	else:
 		selected = 0
+
 	file_id = similar_names[selected][0]
-
-	new_filename = file_id + '_' + file
-
-	print("	", file, "	>	", new_filename, '\n')
-	if not args.simulate:
-		rename(file, new_filename)
+	new_filename = str(file_id) + '_' + file
+	_rename(file, new_filename)
