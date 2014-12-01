@@ -5,7 +5,7 @@ Scrappers that grab declarations and biographies of the MPs candidates in Ukrain
 
 ## add_ids_to_filenames.py
 Script that finds MP's chesno ID for all [.pdf] files in a working directory.
-Uses [transliterate](https://pypi.python.org/pypi/) to convert names with latin characters and [python-Levenshtein](https://pypi.python.org/pypi/python-Levenshtein/).
+Requires [transliterate](https://pypi.python.org/pypi/transliterate) to convert names with latin characters and [python-Levenshtein](https://pypi.python.org/pypi/python-Levenshtein/).
 Assumes that MPs database is in `../../base.csv`
 
 Usage:
@@ -24,3 +24,13 @@ bio_прізвище.pdf
 ім’я_прізвище.pdf (with --name-reversed)
 ```
 All files starting with an integer and underscore will be ignored.
+
+## get_photos.py
+Downloads MP photos from the list on rada.gov.ua to the working directory.
+Requires [PyQuery](https://pypi.python.org/pypi/pyquery) and [httplib2](https://pypi.python.org/pypi/httplib2).
+
+These photos can be further processed with
+```
+add_ids_to_filenames.py --extension=".jpg" --rename
+add_ids_to_filenames.py --extension=".jpg" --full-rename --rename
+```
