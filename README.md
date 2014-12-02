@@ -23,7 +23,7 @@ bio_прізвище.pdf
 прізвище_і_б.pdf
 ім’я_прізвище.pdf (with --name-reversed)
 ```
-All files starting with an integer and underscore will be ignored.
+All files starting with an integer and underscore will be ignored unless `--full-rename` option is provided in which case it will use the integer as an MP ID and rename the file taking credentials by this ID.
 
 ## get_photos.py
 Downloads MP photos from the list on rada.gov.ua to the working directory.
