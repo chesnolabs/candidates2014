@@ -34,3 +34,13 @@ These photos can be further processed with
 add_ids_to_filenames.py --extension=".jpg" --rename
 add_ids_to_filenames.py --extension=".jpg" --full-rename --rename
 ```
+
+## get_assistants.py
+Prints list of assistants for every MP along with their IDs and names to the stdout.
+Usage:
+```
+python3 get_assistants.py > assistants.csv
+```
+
+## mp_base.py
+Helper class to work with MP database.
