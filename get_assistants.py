@@ -16,8 +16,16 @@ ASSISTANTS_TITLE_START = "ПОМІЧНИКИ-КОНСУЛЬТАНТИ"
 
 USERAGENT = "Mozilla/5.0 (X11; Linux i686) (KHTML, Gecko) Chrome/40.0.1234.56"
 
+
 def get_assistants(mp_page_url, base):
-    q = pq(url=mp_page_url, headers={'user-agent': USERAGENT})
+    page_downloaded = False
+    while not page_downloaded:
+        try:
+            q = pq(url=mp_page_url, headers={'user-agent': USERAGENT})
+            page_downloaded = True
+        except:
+            continue
+
     mp_name = q(MP_NAME_SELECTOR).text()
     mp_id = base.get_mp_id_by_name(mp_name)
 
