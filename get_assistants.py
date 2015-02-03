@@ -15,6 +15,7 @@ MP_NAME_SELECTOR = "#mp_content table.simple_info h2"
 ASSISTANTS_TITLE_START = "ПОМІЧНИКИ-КОНСУЛЬТАНТИ"
 
 USERAGENT = "Mozilla/5.0 (X11; Linux i686) (KHTML, Gecko) Chrome/40.0.1234.56"
+DOWNLOAD_DELAY = 1
 
 
 def get_assistants(mp_page_url, base):
@@ -31,6 +32,7 @@ def get_assistants(mp_page_url, base):
 
     assistants = []
     in_assistants_list = False
+    having_assistants = False
 
     for div in [q(div) for div in q("div")]:
         if div.text().upper().startswith(ASSISTANTS_TITLE_START): 
@@ -51,6 +53,15 @@ def get_assistants(mp_page_url, base):
                                 mp_name,
                                 assistant_name,
                                 assistant_reason]))
+                having_assistants = True
+
+    if not having_assistants:
+        print(','.join([
+                            mp_id,
+                            mp_name,
+                            '',
+                            '']))
+
 
 
 if __name__ == '__main__':
@@ -60,5 +71,5 @@ if __name__ == '__main__':
     for mp_page_url in [pq(mp).attr('href') for mp in main_list(LIST_ELEMENT)]:
         print(mp_page_url, file=stderr)
         get_assistants(mp_page_url, base)
-        sleep(3)
+        sleep(DOWNLOAD_DELAY)
 
