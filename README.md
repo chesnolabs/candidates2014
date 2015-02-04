@@ -52,4 +52,4 @@ python3 get_assistants.py > assistants.csv
 
 
 ## mp_base.py
-Helper class to work with MP database. Opens [`../data/mp_id_base.csv`](https://github.com/chesnolabs/data) by default.
+Helper class to work with MP database.
