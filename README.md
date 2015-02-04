@@ -1,7 +1,7 @@
 candidates2014
 ==============
 
-Scrappers that grab declarations and biographies of the MPs candidates in Ukrainian parliament - Elections 2014
+Scrapers that grab declarations and biographies of the MPs candidates in Ukrainian parliament - Elections 2014
 
 
 ## Installing requirements
