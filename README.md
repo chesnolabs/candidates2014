@@ -7,6 +7,7 @@ Scrappers that grab declarations and biographies of the MPs candidates in Ukrain
 ## Installing requirements
 ```
 pip3 install -r requirements.txt
+git clone https://github.com/chesnolabs/data ../data
 ```
 
 
