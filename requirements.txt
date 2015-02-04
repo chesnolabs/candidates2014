@@ -1,0 +1,4 @@
+PyQuery
+httplib2
+transliterate
+python-Levenshtein

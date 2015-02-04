@@ -7,7 +7,7 @@ from csv import reader
 
 class MPBase():
     def __init__(self,
-                 base_location='../base.csv',
+                 base_location='../data/mp_id_base.csv',
                  with_header=False,
                  party_filter=None):
         self.base = dict()
