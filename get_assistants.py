@@ -6,7 +6,7 @@ from pyquery import PyQuery as pq
 from httplib2 import Http
 from sys import stderr
 from time import sleep
-from mp_base import MPBase
+#from mp_base import MPBase
 import re
 
 LIST_URL = 'http://w1.c1.rada.gov.ua/pls/site2/fetch_mps?skl_id=9'
@@ -34,7 +34,8 @@ def clean_name(name):
     return name.strip()
 
 
-def get_assistants(mp_page_url, base):
+#def get_assistants(mp_page_url, base):
+def get_assistants(mp_page_url):
     page_downloaded = False
     while not page_downloaded:
         try:
@@ -89,7 +90,7 @@ def get_assistants(mp_page_url, base):
 
 if __name__ == '__main__':
     main_list = pq(url=LIST_URL, headers={'user-agent': USERAGENT})
-    base = MPBase()
+    #base = MPBase()
 
     print(','.join(['id',
                     'deputy_id',
@@ -101,5 +102,6 @@ if __name__ == '__main__':
 
     for mp_page_url in [pq(mp).attr('href') for mp in main_list(LIST_ELEMENT)]:
         print(mp_page_url, file=stderr)
-        get_assistants(mp_page_url, base)
+        #get_assistants(mp_page_url, base)
+        get_assistants(mp_page_url)
         sleep(DOWNLOAD_DELAY)

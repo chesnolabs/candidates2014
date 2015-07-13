@@ -43,7 +43,7 @@ add_ids_to_filenames.py --extension=".jpg" --full-rename --rename
 
 
 ## get_assistants.py
-Prints list of assistants for every MP along with their IDs and names to the stdout.
+Prints list of assistants for every MP along with their names to the stdout.
 
 Usage:
 ```
