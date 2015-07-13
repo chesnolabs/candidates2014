@@ -26,8 +26,8 @@ class MPBase():
 
                 self.base[mp_name] = mp_id
 
-
-    def get_mp_id_by_name(self, mp_name, default='0'):
+    def get_mp_id_by_name(self, mp_name, default=''):
+        mp_name = mp_name.replace('\'', '’')
         if mp_name in self.base:
             return self.base[mp_name]
         else:
