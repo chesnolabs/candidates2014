@@ -25,7 +25,7 @@ REPLACEMENTS = {" ": " ",
                 "O": "О",
                 "i": "і",
                 "o": "о"}
-REPLACEMENTS = dict((re.escape(k), v) for k, v in REPLACEMENTS.iteritems())
+REPLACEMENTS = dict((re.escape(k), v) for k, v in REPLACEMENTS.items())
 REPLACEMENTS_PATTERN = re.compile("|".join(REPLACEMENTS.keys()))
 
 
